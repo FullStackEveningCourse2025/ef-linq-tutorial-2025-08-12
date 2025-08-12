@@ -12,14 +12,26 @@ namespace ef_linq_tutorial_2025_08_12.Endpoints
         {
             var students = app.MapGroup("/api/students").WithTags("Students");
 
-            students.MapGet("", async Task<Ok<List<Student>>>(AppDbContext db) =>
+            students.MapGet("", async Task<Ok<List<StudentBasicDto>>>(
+                AppDbContext db, string? lastStarts, int page =1, int size=5
+                ) =>
             {
-                var q = db.Students.AsQueryable();
+                var q = db.Students.AsNoTracking().AsQueryable();
 
-                var data = await q.ToListAsync();
+
+                if (!string.IsNullOrEmpty(lastStarts))
+                {
+                    q = q.Where(s => EF.Functions.Like(s.Name.Last, $"{lastStarts}%"));
+                }
+
+                var data = await q
+                .OrderBy(s => s.Name.Last).ThenBy(s => s.Name.First)
+                .Skip((page - 1) * size).Take(size)
+                .Select(s=>new StudentBasicDto(s.Id, s.Name.Full, s.Address.City))
+                .ToListAsync();
 
                 return TypedResults.Ok(data);
-            }).WithName("GetStudents").WithOpenApi();
+            }).WithName("GetStudents").WithSummary("Filter and sort students").WithOpenApi();
 
             return app;
         }
