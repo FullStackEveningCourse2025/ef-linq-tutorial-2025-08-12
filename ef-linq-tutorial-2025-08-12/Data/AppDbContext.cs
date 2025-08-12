@@ -8,8 +8,8 @@ namespace ef_linq_tutorial_2025_08_12.Data
         public DbSet<Student> Students => Set<Student>();
         public DbSet<Instructor> Instructors => Set<Instructor>();
         public DbSet<Course> Courses => Set<Course>();
-        //public DbSet<Department> Departments => Set<Department>();
-        //public DbSet<Enrollment> Enrollments => Set<Enrollment>();
+        public DbSet<Department> Departments => Set<Department>();
+        public DbSet<Enrollment> Enrollments => Set<Enrollment>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -22,14 +22,17 @@ namespace ef_linq_tutorial_2025_08_12.Data
                 {
                     nb.Property(p => p.First).HasMaxLength(50);
                     nb.Property(p => p.Last).HasMaxLength(50);
+                    nb.HasIndex(p => new { p.Last, p.First });
                 });
                 b.OwnsOne(s => s.Address, ab =>
                 {
                     ab.Property(p => p.Street).HasMaxLength(100);
                     ab.Property(p => p.City).HasMaxLength(50);
                     ab.Property(p => p.Country).HasMaxLength(50);
+                   
                 });
-                // b.HasIndex(s => new { s.Name.Last, s.Name.First });
+
+               
             });
 
             modelBuilder.Entity<Instructor>(b =>
