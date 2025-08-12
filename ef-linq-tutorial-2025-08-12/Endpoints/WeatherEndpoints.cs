@@ -24,6 +24,7 @@
                 return forecast;
             })
             .WithName("GetWeatherForecast")
+            .WithTags("Weather")
             .WithOpenApi();
         }
 

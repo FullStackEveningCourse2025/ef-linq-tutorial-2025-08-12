@@ -20,6 +20,7 @@ app.UseHttpsRedirection();
 
 app.AddWeatherEndpoints();
 app.MapStudentsEndpoints();
+app.MapAdminEndpoints();
 app.Run();
 
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
