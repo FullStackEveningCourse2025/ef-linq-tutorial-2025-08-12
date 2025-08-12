@@ -17,7 +17,7 @@ namespace ef_linq_tutorial_2025_08_12.Models
         public PersonName Name { get; set; } = new("", "");
         public Address Address { get; set; } = new("", "", "");
         public DateOnly DateOfBirth { get; set; }
-        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+       public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
     }
 
     public enum Grade { A, B, C, D, F }
@@ -36,8 +36,8 @@ namespace ef_linq_tutorial_2025_08_12.Models
         public int Id { get; set; }
         public PersonName Name { get; set; } = new("", "");
         public Address Address { get; set; } = new("", "", "");
-        public DateOnly HiredOn { get; set; }
-        public ICollection<Course> Courses { get; set; } = new List<Course>();
+       public DateOnly HiredOn { get; set; }
+       public ICollection<Course> Courses { get; set; } = new List<Course>();
     }
 
     public class Department
